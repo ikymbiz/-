@@ -58,3 +58,33 @@ Dim missCnt As Integer
     If LsDist < 0 Then LsDist = Format(0, "0.00")
 End Function
 
+Function GetFileFromFolder(ByVal folderPath As String)
+'指定したパスのフォルダ→サブフォルダ内にあるファイルをすべて探す
+
+Dim fso As Object
+Dim objfile As Object, objCFolder As Object
+    Set fso = CreateObject("Scripting.FileSystemObject")
+Dim filePath As String
+    
+'ファイルを取得する
+If IsExist(folderPath & "\*") = True Then
+    For Each objfile In fso.getFolder(folderPath).Files
+        Logging ("fileName   " & objfile.Name)
+        filePath = objFilePath
+    
+        Call 処理
+    Next
+End If
+
+'サブフォルダを取得し、探索を進める
+If IsExist(folderPath) = True Then
+    For Each objFolder In fso.getFolder(folderPath).subfolders
+        Logging ("folderName     " & objCFolder.Name)
+        Call GetFileFromFolder(folderPath & "\" & objCFolder.Name)
+    Next
+End If
+
+errExit:
+    Logging ("Err on GetFileFromFolder")
+    Exit Function
+End Function
